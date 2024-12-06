@@ -20,25 +20,83 @@ Tuple8 :: struct($A: typeid, $B: typeid, $C: typeid, $D: typeid, $E: typeid, $F:
 Tuple9 :: struct($A: typeid, $B: typeid, $C: typeid, $D: typeid, $E: typeid, $F: typeid, $G: typeid, $H: typeid, $I: typeid){
     bytes: [size_of(A) + size_of(B) + size_of(C) + size_of(D) + size_of(E) + size_of(F) + size_of(G) + size_of(H) + size_of(I)]byte,}
 
-make_tuple1 :: proc(tuple: ^Tuple1($A), a: A) {
+make_tuple1 :: proc(a: $A) -> Tuple1(A) {
+    tuple: Tuple1(A)
+    fill_tuple(&tuple, a)
+    return tuple
+}
+
+make_tuple2 :: proc(a: $A, b: $B) -> Tuple2(A, B) {
+    tuple: Tuple2(A, B)
+    fill_tuple(&tuple, a, b)
+    return tuple
+}
+
+make_tuple3 :: proc(a: $A, b: $B, c: $C) -> Tuple3(A, B, C) {
+    tuple: Tuple3(A, B, C)
+    fill_tuple(&tuple, a, b, c)
+    return tuple
+}
+
+make_tuple4 :: proc(a: $A, b: $B, c: $C, d: $D) -> Tuple4(A, B, C, D) {
+    tuple: Tuple4(A, B, C, D)
+    fill_tuple(&tuple, a, b, c, d)
+    return tuple
+}
+
+make_tuple5 :: proc(a: $A, b: $B, c: $C, d: $D, e: $E) -> Tuple5(A, B, C, D, E) {
+    tuple: Tuple5(A, B, C, D, E)
+    fill_tuple(&tuple, a, b, c, d, e)
+    return tuple
+}
+
+make_tuple6 :: proc(a: $A, b: $B, c: $C, d: $D, e: $E, f: $F) -> Tuple6(A, B, C, D, E, F) {
+    tuple: Tuple6(A, B, C, D, E, F)
+    fill_tuple(&tuple, a, b, c, d, e, f)
+    return tuple
+}
+
+make_tuple7 :: proc(a: $A, b: $B, c: $C, d: $D, e: $E, f: $F, g: $G) -> Tuple7(A, B, C, D, E, F, G) {
+    tuple: Tuple7(A, B, C, D, E, F, G)
+    fill_tuple(&tuple, a, b, c, d, e, f, g)
+    return tuple
+}
+
+make_tuple8 :: proc(a: $A, b: $B, c: $C, d: $D, e: $E, f: $F, g: $G, h: $H) -> Tuple8(A, B, C, D, E, F, G, H) {
+    tuple: Tuple8(A, B, C, D, E, F, G, H)
+    fill_tuple(&tuple, a, b, c, d, e, f, g, h)
+    return tuple
+}
+
+make_tuple9 :: proc(a: $A, b: $B, c: $C, d: $D, e: $E, f: $F, g: $G, h: $H, i: $I) -> Tuple9(A, B, C, D, E, F, G, H, I) {
+    tuple: Tuple9(A, B, C, D, E, F, G, H, I)
+    fill_tuple(&tuple, a, b, c, d, e, f, g, h, i)
+    return tuple
+}
+
+make_tuple :: proc{make_tuple1, make_tuple2, make_tuple3, make_tuple4, make_tuple5,
+                   make_tuple6, make_tuple7, make_tuple8, make_tuple9,}
+
+
+fill_tuple1 :: proc(tuple: ^Tuple1($A), a: A) {
     a := a
     _ = copy(tuple.bytes[:], mem.ptr_to_bytes(&a))
 }
 
-make_tuple2 :: proc(tuple: ^Tuple2($A, $B), a: A, b: B) {
+fill_tuple2 :: proc(tuple: ^Tuple2($A, $B), a: A, b: B) {
     a, b := a, b
     _ = copy(tuple.bytes[:], mem.ptr_to_bytes(&a))
     _ = copy(tuple.bytes[size_of(A):], mem.ptr_to_bytes(&b))
 }
 
-make_tuple3 :: proc(tuple: ^Tuple3($A, $B, $C), a: A, b: B, c: C) {
+fill_tuple3 :: proc(tuple: ^Tuple3($A, $B, $C), a: A, b: B, c: C) {
     a, b, c := a, b, c
     _ = copy(tuple.bytes[:], mem.ptr_to_bytes(&a))
     _ = copy(tuple.bytes[size_of(A):], mem.ptr_to_bytes(&b))
     _ = copy(tuple.bytes[size_of(A) + size_of(B):], mem.ptr_to_bytes(&c))
 }
 
-make_tuple4 :: proc(tuple: ^Tuple4($A, $B, $C, $D), a: A, b: B, c: C, d: D) {
+fill_tuple4 :: proc(tuple: ^Tuple4($A, $B, $C, $D), a: A, b: B, c: C, d: D) {
     a, b, c, d := a, b, c, d
     _ = copy(tuple.bytes[:], mem.ptr_to_bytes(&a))
     _ = copy(tuple.bytes[size_of(A):], mem.ptr_to_bytes(&b))
@@ -46,7 +104,7 @@ make_tuple4 :: proc(tuple: ^Tuple4($A, $B, $C, $D), a: A, b: B, c: C, d: D) {
     _ = copy(tuple.bytes[size_of(A) + size_of(B) + size_of(C):], mem.ptr_to_bytes(&d))
 }
 
-make_tuple5 :: proc(tuple: ^Tuple5($A, $B, $C, $D, $E), a: A, b: B, c: C, d: D, e: E) {
+fill_tuple5 :: proc(tuple: ^Tuple5($A, $B, $C, $D, $E), a: A, b: B, c: C, d: D, e: E) {
     a, b, c, d, e := a, b, c, d, e
     _ = copy(tuple.bytes[:], mem.ptr_to_bytes(&a))
     _ = copy(tuple.bytes[size_of(A):], mem.ptr_to_bytes(&b))
@@ -55,7 +113,7 @@ make_tuple5 :: proc(tuple: ^Tuple5($A, $B, $C, $D, $E), a: A, b: B, c: C, d: D, 
     _ = copy(tuple.bytes[size_of(A) + size_of(B) + size_of(C) + size_of(D):], mem.ptr_to_bytes(&e))
 }
 
-make_tuple6 :: proc(tuple: ^Tuple6($A, $B, $C, $D, $E, $F), a: A, b: B, c: C, d: D, e: E, f: F) {
+fill_tuple6 :: proc(tuple: ^Tuple6($A, $B, $C, $D, $E, $F), a: A, b: B, c: C, d: D, e: E, f: F) {
     a, b, c, d, e, f := a, b, c, d, e, f
     _ = copy(tuple.bytes[:], mem.ptr_to_bytes(&a))
     _ = copy(tuple.bytes[size_of(A):], mem.ptr_to_bytes(&b))
@@ -65,7 +123,7 @@ make_tuple6 :: proc(tuple: ^Tuple6($A, $B, $C, $D, $E, $F), a: A, b: B, c: C, d:
     _ = copy(tuple.bytes[size_of(A) + size_of(B) + size_of(C) + size_of(D) + size_of(E):], mem.ptr_to_bytes(&f))
 }
 
-make_tuple7 :: proc(tuple: ^Tuple7($A, $B, $C, $D, $E, $F, $G), a: A, b: B, c: C, d: D, e: E, f: F, g: G) {
+fill_tuple7 :: proc(tuple: ^Tuple7($A, $B, $C, $D, $E, $F, $G), a: A, b: B, c: C, d: D, e: E, f: F, g: G) {
     a, b, c, d, e, f, g := a, b, c, d, e, f, g
     _ = copy(tuple.bytes[:], mem.ptr_to_bytes(&a))
     _ = copy(tuple.bytes[size_of(A):], mem.ptr_to_bytes(&b))
@@ -76,7 +134,7 @@ make_tuple7 :: proc(tuple: ^Tuple7($A, $B, $C, $D, $E, $F, $G), a: A, b: B, c: C
     _ = copy(tuple.bytes[size_of(A) + size_of(B) + size_of(C) + size_of(D) + size_of(E) + size_of(F):], mem.ptr_to_bytes(&g))
 }
 
-make_tuple8 :: proc(tuple: ^Tuple8($A, $B, $C, $D, $E, $F, $G, $H), a: A, b: B, c: C, d: D, e: E, f: F, g: G, h: H) {
+fill_tuple8 :: proc(tuple: ^Tuple8($A, $B, $C, $D, $E, $F, $G, $H), a: A, b: B, c: C, d: D, e: E, f: F, g: G, h: H) {
     a, b, c, d, e, f, g, h := a, b, c, d, e, f, g, h
     _ = copy(tuple.bytes[:], mem.ptr_to_bytes(&a))
     _ = copy(tuple.bytes[size_of(A):], mem.ptr_to_bytes(&b))
@@ -88,7 +146,7 @@ make_tuple8 :: proc(tuple: ^Tuple8($A, $B, $C, $D, $E, $F, $G, $H), a: A, b: B, 
     _ = copy(tuple.bytes[size_of(A) + size_of(B) + size_of(C) + size_of(D) + size_of(E) + size_of(F) + size_of(G):], mem.ptr_to_bytes(&h))
 }
 
-make_tuple9 :: proc(tuple: ^Tuple9($A, $B, $C, $D, $E, $F, $G, $H, $I), a: A, b: B, c: C, d: D, e: E, f: F, g: G, h: H, i: I) {
+fill_tuple9 :: proc(tuple: ^Tuple9($A, $B, $C, $D, $E, $F, $G, $H, $I), a: A, b: B, c: C, d: D, e: E, f: F, g: G, h: H, i: I) {
     a, b, c, d, e, f, g, h, i := a, b, c, d, e, f, g, h, i
     _ = copy(tuple.bytes[:], mem.ptr_to_bytes(&a))
     _ = copy(tuple.bytes[size_of(A):], mem.ptr_to_bytes(&b))
@@ -290,8 +348,8 @@ tuple9_get8 :: proc(tuple: ^Tuple9($A, $B, $C, $D, $E, $F, $G, $H, $I)) -> I {
 }
 
 
-make_tuple :: proc{make_tuple1, make_tuple2, make_tuple3, make_tuple4, make_tuple5,
-                   make_tuple6, make_tuple7, make_tuple8, make_tuple9,}
+fill_tuple :: proc{fill_tuple1, fill_tuple2, fill_tuple3, fill_tuple4, fill_tuple5,
+                   fill_tuple6, fill_tuple7, fill_tuple8, fill_tuple9,}
 tuple_get0 :: proc{tuple1_get0, tuple2_get0, tuple3_get0, tuple4_get0, tuple5_get0,
                    tuple6_get0, tuple7_get0, tuple8_get0, tuple9_get0,}
 tuple_get1 :: proc{tuple2_get1, tuple3_get1, tuple4_get1, tuple5_get1, tuple6_get1,

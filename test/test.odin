@@ -1,7 +1,7 @@
 package callable_test
 import  "core:fmt"
 import  "core:mem"
-import  ".."
+import  callable ".."
 
 test00 :: proc() {
     fmt.println("test00")
@@ -23,6 +23,11 @@ test11 :: proc(x: int) -> int {
 
 test20 :: proc(x: int, y: int) {
     fmt.println("test11 x =", x, "y =", y)
+}
+
+callback_example :: proc(data: rawptr, x: int, y: int, z: int) -> int {
+    data := cast(^callable.Tuple3(int, int, int))(data)
+    return callable.tuple_get0(data) + callable.tuple_get1(data) + callable.tuple_get2(data) + x + y + z
 }
 
 main :: proc() {
@@ -48,4 +53,8 @@ main :: proc() {
     fmt.println("test_11_result =", test_11_result)
     test111_result := callable.call(&test11_capture, 23)
     fmt.println("test111_result =", test111_result)
+
+    callback_tuple := callable.make_tuple(1, 4, 8)
+    callback_result := callback_example(&callback_tuple, 16, 32, 64)
+    fmt.println("callback_result =", callback_result)
 }

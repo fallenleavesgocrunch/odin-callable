@@ -52,7 +52,7 @@ generate_tuple_signature :: proc(parameters: int, returns: int, declare: bool) {
 // generate something like the following:
 //      make_callable2 :: proc(procedure: proc($A, $B), a: A, b: B) -> Tuple3(proc(A, B), A, B) {
 //          callable: Tuple3(proc(A, B), A, B)
-//          make_tuple(&callable, procedure, a, b)
+//          fill_tuple(&callable, procedure, a, b)
 //          return callable
 //      }
 generate_make_callable :: proc(parameters: int, returns: int) {
@@ -65,7 +65,7 @@ generate_make_callable :: proc(parameters: int, returns: int) {
     fmt.printf("\tcallable: ")
     generate_tuple_signature(parameters, returns, false)
     fmt.printf("\n")
-    fmt.printf("\tmake_tuple(&callable, procedure")
+    fmt.printf("\tfill_tuple(&callable, procedure")
     for i in 0..<parameters { fmt.printf(",%s", p[i]) }
     fmt.printf(")\n")
     fmt.printf("\treturn callable\n")
