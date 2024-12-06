@@ -20,62 +20,120 @@ Tuple8 :: struct($A: typeid, $B: typeid, $C: typeid, $D: typeid, $E: typeid, $F:
 Tuple9 :: struct($A: typeid, $B: typeid, $C: typeid, $D: typeid, $E: typeid, $F: typeid, $G: typeid, $H: typeid, $I: typeid){
     bytes: [size_of(A) + size_of(B) + size_of(C) + size_of(D) + size_of(E) + size_of(F) + size_of(G) + size_of(H) + size_of(I)]byte,}
 
-make_tuple1 :: proc(a: $A) -> Tuple1(A) {
+tuple1 :: proc(a: $A) -> Tuple1(A) {
     tuple: Tuple1(A)
     fill_tuple(&tuple, a)
     return tuple
 }
 
-make_tuple2 :: proc(a: $A, b: $B) -> Tuple2(A, B) {
+tuple2 :: proc(a: $A, b: $B) -> Tuple2(A, B) {
     tuple: Tuple2(A, B)
     fill_tuple(&tuple, a, b)
     return tuple
 }
 
-make_tuple3 :: proc(a: $A, b: $B, c: $C) -> Tuple3(A, B, C) {
+tuple3 :: proc(a: $A, b: $B, c: $C) -> Tuple3(A, B, C) {
     tuple: Tuple3(A, B, C)
     fill_tuple(&tuple, a, b, c)
     return tuple
 }
 
-make_tuple4 :: proc(a: $A, b: $B, c: $C, d: $D) -> Tuple4(A, B, C, D) {
+tuple4 :: proc(a: $A, b: $B, c: $C, d: $D) -> Tuple4(A, B, C, D) {
     tuple: Tuple4(A, B, C, D)
     fill_tuple(&tuple, a, b, c, d)
     return tuple
 }
 
-make_tuple5 :: proc(a: $A, b: $B, c: $C, d: $D, e: $E) -> Tuple5(A, B, C, D, E) {
+tuple5 :: proc(a: $A, b: $B, c: $C, d: $D, e: $E) -> Tuple5(A, B, C, D, E) {
     tuple: Tuple5(A, B, C, D, E)
     fill_tuple(&tuple, a, b, c, d, e)
     return tuple
 }
 
-make_tuple6 :: proc(a: $A, b: $B, c: $C, d: $D, e: $E, f: $F) -> Tuple6(A, B, C, D, E, F) {
+tuple6 :: proc(a: $A, b: $B, c: $C, d: $D, e: $E, f: $F) -> Tuple6(A, B, C, D, E, F) {
     tuple: Tuple6(A, B, C, D, E, F)
     fill_tuple(&tuple, a, b, c, d, e, f)
     return tuple
 }
 
-make_tuple7 :: proc(a: $A, b: $B, c: $C, d: $D, e: $E, f: $F, g: $G) -> Tuple7(A, B, C, D, E, F, G) {
+tuple7 :: proc(a: $A, b: $B, c: $C, d: $D, e: $E, f: $F, g: $G) -> Tuple7(A, B, C, D, E, F, G) {
     tuple: Tuple7(A, B, C, D, E, F, G)
     fill_tuple(&tuple, a, b, c, d, e, f, g)
     return tuple
 }
 
-make_tuple8 :: proc(a: $A, b: $B, c: $C, d: $D, e: $E, f: $F, g: $G, h: $H) -> Tuple8(A, B, C, D, E, F, G, H) {
+tuple8 :: proc(a: $A, b: $B, c: $C, d: $D, e: $E, f: $F, g: $G, h: $H) -> Tuple8(A, B, C, D, E, F, G, H) {
     tuple: Tuple8(A, B, C, D, E, F, G, H)
     fill_tuple(&tuple, a, b, c, d, e, f, g, h)
     return tuple
 }
 
-make_tuple9 :: proc(a: $A, b: $B, c: $C, d: $D, e: $E, f: $F, g: $G, h: $H, i: $I) -> Tuple9(A, B, C, D, E, F, G, H, I) {
+tuple9 :: proc(a: $A, b: $B, c: $C, d: $D, e: $E, f: $F, g: $G, h: $H, i: $I) -> Tuple9(A, B, C, D, E, F, G, H, I) {
     tuple: Tuple9(A, B, C, D, E, F, G, H, I)
     fill_tuple(&tuple, a, b, c, d, e, f, g, h, i)
     return tuple
 }
 
+make_tuple1 :: proc(a: $A, allocator := context.allocator) -> ^Tuple1(A) {
+    tuple := new(Tuple1(A), allocator)
+    fill_tuple(tuple, a)
+    return tuple
+}
+
+make_tuple2 :: proc(a: $A, b: $B, allocator := context.allocator) -> ^Tuple2(A, B) {
+    tuple := new(Tuple2(A, B), allocator)
+    fill_tuple(tuple, a, b)
+    return tuple
+}
+
+make_tuple3 :: proc(a: $A, b: $B, c: $C, allocator := context.allocator) -> ^Tuple3(A, B, C) {
+    tuple := new(Tuple3(A, B, C), allocator)
+    fill_tuple(tuple, a, b, c)
+    return tuple
+}
+
+make_tuple4 :: proc(a: $A, b: $B, c: $C, d: $D, allocator := context.allocator) -> ^Tuple4(A, B, C, D) {
+    tuple := new(Tuple4(A, B, C, D), allocator)
+    fill_tuple(tuple, a, b, c, d)
+    return tuple
+}
+
+make_tuple5 :: proc(a: $A, b: $B, c: $C, d: $D, e: $E, allocator := context.allocator) -> ^Tuple5(A, B, C, D, E) {
+    tuple := new(Tuple5(A, B, C, D, E), allocator)
+    fill_tuple(tuple, a, b, c, d, e)
+    return tuple
+}
+
+make_tuple6 :: proc(a: $A, b: $B, c: $C, d: $D, e: $E, f: $F, allocator := context.allocator) -> ^Tuple6(A, B, C, D, E, F) {
+    tuple := new(Tuple6(A, B, C, D, E, F), allocator)
+    fill_tuple(tuple, a, b, c, d, e, f)
+    return tuple
+}
+
+make_tuple7 :: proc(a: $A, b: $B, c: $C, d: $D, e: $E, f: $F, g: $G, allocator := context.allocator) -> ^Tuple7(A, B, C, D, E, F, G) {
+    tuple := new(Tuple7(A, B, C, D, E, F, G), allocator)
+    fill_tuple(tuple, a, b, c, d, e, f, g)
+    return tuple
+}
+
+make_tuple8 :: proc(a: $A, b: $B, c: $C, d: $D, e: $E, f: $F, g: $G, h: $H, allocator := context.allocator) -> ^Tuple8(A, B, C, D, E, F, G, H) {
+    tuple := new(Tuple8(A, B, C, D, E, F, G, H), allocator)
+    fill_tuple(tuple, a, b, c, d, e, f, g, h)
+    return tuple
+}
+
+make_tuple9 :: proc(a: $A, b: $B, c: $C, d: $D, e: $E, f: $F, g: $G, h: $H, i: $I, allocator := context.allocator) -> ^Tuple9(A, B, C, D, E, F, G, H, I) {
+    tuple := new(Tuple9(A, B, C, D, E, F, G, H, I), allocator)
+    fill_tuple(tuple, a, b, c, d, e, f, g, h, i)
+    return tuple
+}
+
+tuple :: proc{tuple1, tuple2, tuple3, tuple4, tuple5,
+                   tuple6, tuple7, tuple8, tuple9,}
+
 make_tuple :: proc{make_tuple1, make_tuple2, make_tuple3, make_tuple4, make_tuple5,
-                   make_tuple6, make_tuple7, make_tuple8, make_tuple9,}
+              make_tuple6, make_tuple7, make_tuple8, make_tuple9,}
+
 
 
 fill_tuple1 :: proc(tuple: ^Tuple1($A), a: A) {

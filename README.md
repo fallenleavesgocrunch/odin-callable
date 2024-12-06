@@ -30,3 +30,20 @@ may become out of scope by the time you call the callable.
 
 There is a maximum of 8 parameters+returns for any procedure being used in a callable.
 Multiple return values are fine: proc(a, b, c) -> (d, e)
+
+You can use tuples directly too:
+
+`  result := callable.tuple(1, 2, 3)`
+
+If you want to pass it to an event handler outside the scope of the current stack frame
+you will want to allocate it first and perhaps deallocate it when it's used up (or use
+a temporary arena)
+
+`  do_a_thing(my_callback, callable.make_tuple(1, 2, 3)`
+
+```
+my_callback :: proc(tuple: rawptr) {
+  tuple := cast(^callable.Tuple3(int, int, int))(tuple)
+  defer free(tuple)
+  ...
+}```

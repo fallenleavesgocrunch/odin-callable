@@ -30,6 +30,12 @@ callback_example :: proc(data: rawptr, x: int, y: int, z: int) -> int {
     return callable.tuple_get0(data) + callable.tuple_get1(data) + callable.tuple_get2(data) + x + y + z
 }
 
+callback_dealloc_example :: proc(data: rawptr, x: int, y: int, z: int) -> int {
+    data := cast(^callable.Tuple3(int, int, int))(data)
+    defer free(data)
+    return callable.tuple_get0(data) + callable.tuple_get1(data) + callable.tuple_get2(data) + x + y + z
+}
+
 main :: proc() {
     test00_capture := callable.make_callable(test00)
     callable.call(&test00_capture)
@@ -54,7 +60,10 @@ main :: proc() {
     test111_result := callable.call(&test11_capture, 23)
     fmt.println("test111_result =", test111_result)
 
-    callback_tuple := callable.make_tuple(1, 4, 8)
+    callback_tuple := callable.tuple(1, 4, 8)
     callback_result := callback_example(&callback_tuple, 16, 32, 64)
     fmt.println("callback_result =", callback_result)
+
+    callback_dealloc_result := callback_dealloc_example(callable.make_tuple(1, 4, 8), 16, 32, 64)
+    fmt.println("callback_dealloc_result =", callback_dealloc_result)
 }
